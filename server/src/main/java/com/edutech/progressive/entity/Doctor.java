@@ -1,19 +1,19 @@
 package com.edutech.progressive.entity;
 
-public class Doctor {
+public class Doctor implements Comparable<Doctor> {
     private int doctorId;
     private String fullName;
-    private String speciality;
+    private String specialty;
     private String contactNumber;
     private String email;
     private int yearsOfExperience;
     public Doctor() {
     }
-    public Doctor(int doctorId, String fullName, String speciality, String contactNumber, String email,
+    public Doctor(int doctorId, String fullName, String specialty, String contactNumber, String email,
             int yearsOfExperience) {
         this.doctorId = doctorId;
         this.fullName = fullName;
-        this.speciality = speciality;
+        this.specialty = specialty;
         this.contactNumber = contactNumber;
         this.email = email;
         this.yearsOfExperience = yearsOfExperience;
@@ -30,11 +30,11 @@ public class Doctor {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-    public String getSpeciality() {
-        return speciality;
+    public String getSpecialty() {
+        return specialty;
     }
-    public void setSpeciality(String speciality) {
-        this.speciality = speciality;
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
     }
     public String getContactNumber() {
         return contactNumber;
@@ -53,6 +53,10 @@ public class Doctor {
     }
     public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
+    }
+    @Override
+    public int compareTo(Doctor o) {
+        return Integer.compare(this.yearsOfExperience, o.getYearsOfExperience());
     }
     
 }
