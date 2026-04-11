@@ -1,41 +1,51 @@
 package com.edutech.progressive.service.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.edutech.progressive.dao.DoctorDAO;
 import com.edutech.progressive.entity.Doctor;
 import com.edutech.progressive.service.DoctorService;
 
 public class DoctorServiceImplJdbc implements DoctorService {
 
-    @Override
-    public List<Doctor> getAllDoctors() {
-        return new ArrayList<>();
+    private DoctorDAO doctorDAO;
+
+    public DoctorServiceImplJdbc(DoctorDAO doctorDAO) {
+        this.doctorDAO = doctorDAO;
     }
 
     @Override
-    public Doctor getDoctorById(int doctorId){
-        return null;
+    public List<Doctor> getAllDoctors() throws SQLException {
+        return doctorDAO.getAllDoctors();
     }
 
     @Override
-    public Integer addDoctor(Doctor doctor) {
-        return -1;
+    public Doctor getDoctorById(int doctorId) throws SQLException {
+        return doctorDAO.getDoctorById(doctorId);
     }
 
     @Override
-    public List<Doctor> getDoctorSortedByExperience() {
-        return new ArrayList<>();
+    public Integer addDoctor(Doctor doctor) throws SQLException {
+        return doctorDAO.addDoctor(doctor);
     }
 
     @Override
-    public void updateDoctor(Doctor doctor){
-
+    public List<Doctor> getDoctorSortedByExperience() throws SQLException {
+        List<Doctor> doctors = new ArrayList<>(doctorDAO.getAllDoctors());
+        Collections.sort(doctors);
+        return doctors;
     }
 
     @Override
-    public void deleteDoctor(int doctorId){
-
+    public void updateDoctor(Doctor doctor) throws SQLException {
+        doctorDAO.updateDoctor(doctor);
     }
 
+    @Override
+    public void deleteDoctor(int doctorId) throws SQLException {
+        doctorDAO.deleteDoctor(doctorId);
+    }
 }
