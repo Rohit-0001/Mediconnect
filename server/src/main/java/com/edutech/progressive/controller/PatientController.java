@@ -72,7 +72,7 @@ public class PatientController {
     public ResponseEntity<Void> deletePatient(@PathVariable("patientID") int patientId) {
         try {
             patientService.deletePatient(patientId);
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
