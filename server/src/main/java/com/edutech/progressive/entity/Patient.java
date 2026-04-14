@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Patient implements Comparable<Patient>{
@@ -17,6 +19,9 @@ public class Patient implements Comparable<Patient>{
     private String contactNumber;
     private String email;
     private String address;
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
     public Patient() {
     }
     public Patient(int patientId, String fullName, Date dateOfBirth, String contactNumber, String email,
@@ -67,6 +72,12 @@ public class Patient implements Comparable<Patient>{
     @Override
     public int compareTo(Patient o) {
         return this.getFullName().compareTo(o.getFullName());
+    }
+    public Doctor getDoctor() {
+        return doctor;
+    }
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
     
 }

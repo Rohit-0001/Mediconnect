@@ -1,9 +1,15 @@
 package com.edutech.progressive.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Clinic {
@@ -15,7 +21,9 @@ public class Clinic {
     private int doctorId;
     private String contactNumber;
     private int establishedYear;
-
+    @OneToMany(mappedBy = "clinic")
+    @JsonManagedReference
+    private List<Doctor> doctors = new ArrayList<>();
     public Clinic(){}
 
     public Clinic(int clinicId, String clinicName, String location, int doctorId, String contactNumber,
@@ -74,6 +82,14 @@ public class Clinic {
 
     public void setEstablishedYear(int establishedYear) {
         this.establishedYear = establishedYear;
+    }
+
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
     }
     
 }

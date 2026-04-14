@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Doctor implements Comparable<Doctor> {
@@ -15,6 +19,10 @@ public class Doctor implements Comparable<Doctor> {
     private String contactNumber;
     private String email;
     private int yearsOfExperience;
+    @ManyToOne
+    @JoinColumn(name = "doctors")
+    @JsonBackReference
+    private Clinic clinic;
     public Doctor() {
     }
     public Doctor(int doctorId, String fullName, String specialty, String contactNumber, String email,
@@ -66,5 +74,10 @@ public class Doctor implements Comparable<Doctor> {
     public int compareTo(Doctor o) {
         return Integer.compare(this.yearsOfExperience, o.getYearsOfExperience());
     }
-    
+    public Clinic getClinic() {
+        return clinic;
+    }
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
 }
