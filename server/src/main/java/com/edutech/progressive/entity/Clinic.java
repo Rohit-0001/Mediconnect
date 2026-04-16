@@ -9,22 +9,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 public class Clinic {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private int clinicId;
     private String clinicName;
     private String location;
     private int doctorId;
     private String contactNumber;
     private int establishedYear;
+
     @OneToMany(mappedBy = "clinic")
-    @JsonManagedReference
-    private List<Doctor> doctors = new ArrayList<>();
-    public Clinic(){}
+    List<Doctor> doctors = new ArrayList<>();
+
+    public Clinic() {
+
+    }
 
     public Clinic(int clinicId, String clinicName, String location, int doctorId, String contactNumber,
             int establishedYear) {
@@ -84,12 +84,4 @@ public class Clinic {
         this.establishedYear = establishedYear;
     }
 
-    public List<Doctor> getDoctors() {
-        return doctors;
-    }
-
-    public void setDoctors(List<Doctor> doctors) {
-        this.doctors = doctors;
-    }
-    
 }

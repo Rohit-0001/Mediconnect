@@ -57,6 +57,7 @@ public class PatientServiceImplJpa implements PatientService {
     public void deletePatient(int patientId) throws SQLException {
         Optional<Patient> p = patientRepository.findById(patientId);
         if(p.isPresent()){
+            billingRepository.deleteByPatientId(patientId);
             patientRepository.deleteById(patientId);
         }
     }

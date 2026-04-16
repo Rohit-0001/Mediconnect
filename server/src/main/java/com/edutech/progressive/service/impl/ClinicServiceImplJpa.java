@@ -1,13 +1,8 @@
 package com.edutech.progressive.service.impl;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import com.edutech.progressive.entity.Clinic;
@@ -18,49 +13,54 @@ import com.edutech.progressive.service.ClinicService;
 @Service
 public class ClinicServiceImplJpa implements ClinicService {
 
-    ClinicRepository clinicRepository;
-    
+    private final ClinicRepository clinicRepository;
+
     public ClinicServiceImplJpa(ClinicRepository clinicRepository) {
         this.clinicRepository = clinicRepository;
     }
 
     @Override
-    public List<Clinic> getAllClinics() throws SQLException {
+    public List<Clinic> getAllClinics() throws Exception {
         return clinicRepository.findAll();
     }
 
     @Override
-    public Clinic getClinicById(int clinicId) throws SQLException {
-        return clinicRepository.findByClinicId(clinicId);
-    }
-
-    @Override
-    public Integer addClinic(Clinic clinic) throws SQLException {
-        if(clinicRepository.findByClinicName(clinic.getClinicName()).isPresent()){
-            throw new ClinicAlreadyExistsException("Clinic already exists");
+    public Clinic getClinicById(int clinicId) throws Exception {
+        Optional<Clinic> c = clinicRepository.findByClinicId(clinicId);
+        if (c.isPresent()) {
+            return c.get();
         }
-        Clinic saved = clinicRepository.save(clinic);
-        return saved.getClinicId();
+        return null;
     }
 
     @Override
-    public void updateClinic(Clinic clinic) throws SQLException {
+    public Integer addClinic(Clinic clinic) throws Exception {
+        Optional<Clinic> c = clinicRepository.findByClinicName(clinic.getClinicName());
+        if(c.isPresent()){
+            throw new ClinicAlreadyExistsException("Clinic already exists with same email");
+        }
+        clinicRepository.save(clinic);
+        return clinic.getClinicId();
+    }
+
+    @Override
+    public void updateClinic(Clinic clinic) throws Exception {
         clinicRepository.save(clinic);
     }
 
     @Override
-    public void deleteClinic(int clinicId) throws SQLException {
-        Optional<Clinic> c = clinicRepository.findById(clinicId);
-        if(c.isPresent()){
+    public void deleteClinic(int clinicId) throws Exception {
+        Optional<Clinic> c = clinicRepository.findByClinicId(clinicId);
+        if (c.isPresent()) {
             clinicRepository.deleteById(clinicId);
         }
     }
 
-    public List<Clinic> getAllClinicByLocation(String location) throws SQLException {
+    public List<Clinic> getAllClinicByLocation(String location) throws Exception {
         return clinicRepository.findAllByLocation(location);
     }
 
-    public List<Clinic> getAllClinicByDoctorId(int doctorId) throws SQLException {
+    public List<Clinic> getAllClinicByDoctorId(int doctorId) throws Exception {
         return clinicRepository.findAllByDoctorId(doctorId);
     }
 
