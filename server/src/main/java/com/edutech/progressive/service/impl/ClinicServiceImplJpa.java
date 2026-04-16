@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import com.edutech.progressive.entity.Clinic;
+import com.edutech.progressive.exception.ClinicAlreadyExistsException;
 import com.edutech.progressive.repository.ClinicRepository;
 import com.edutech.progressive.service.ClinicService;
 
@@ -35,6 +36,9 @@ public class ClinicServiceImplJpa implements ClinicService {
 
     @Override
     public Integer addClinic(Clinic clinic) throws SQLException {
+        if(clinicRepository.findByClinicName(clinic.getClinicName()).isPresent()){
+            throw new ClinicAlreadyExistsException("Clinic already exists");
+        }
         Clinic saved = clinicRepository.save(clinic);
         return saved.getClinicId();
     }

@@ -1,6 +1,7 @@
 package com.edutech.progressive.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -17,5 +18,8 @@ public interface ClinicRepository extends JpaRepository<Clinic, Integer> {
 
     List<Clinic> findAllByDoctorId(int doctorId);
 
+    @Transactional
     void deleteByDoctorId(int doctorId);
+
+    Optional<Clinic> findByClinicName(String clinicName);
 }

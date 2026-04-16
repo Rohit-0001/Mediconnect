@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edutech.progressive.entity.Doctor;
+import com.edutech.progressive.exception.DoctorAlreadyExistsException;
 import com.edutech.progressive.repository.ClinicRepository;
 import com.edutech.progressive.repository.DoctorRepository;
 import com.edutech.progressive.service.DoctorService;
@@ -31,6 +32,9 @@ public class DoctorServiceImplJpa implements DoctorService {
 
     @Override
     public Integer addDoctor(Doctor doctor) throws SQLException {
+        if(doctorRepository.findByEmail(doctor.getEmail()).isPresent()){
+            throw new DoctorAlreadyExistsException("Doctor already exists");
+        }
         doctorRepository.save(doctor);
         return doctor.getDoctorId();
     }

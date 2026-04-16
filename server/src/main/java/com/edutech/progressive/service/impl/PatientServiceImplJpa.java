@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.edutech.progressive.entity.Patient;
+import com.edutech.progressive.exception.PatientAlreadyExistsException;
+import com.edutech.progressive.exception.PatientNotFoundException;
 import com.edutech.progressive.repository.PatientRepository;
 import com.edutech.progressive.service.PatientService;
 
@@ -29,8 +31,11 @@ public class PatientServiceImplJpa implements PatientService {
 
     @Override
     public Integer addPatient(Patient patient) throws SQLException {
-        patientRepository.save(patient);
-        return 1;
+        if(patientRepository.findByEmail(patient.getEmail()).isPresent()){
+            throw new PatientAlreadyExistsException("Patient already exists");
+        }
+        Patient p = patientRepository.save(patient);
+        return p.getPatientId();
     }
 
     @Override
@@ -56,6 +61,6 @@ public class PatientServiceImplJpa implements PatientService {
         if(p.isPresent()){
             return patientRepository.findById(patientId).get();
         }
-        return null;
+        throw new PatientNotFoundException("Patient not found");
     }
 }

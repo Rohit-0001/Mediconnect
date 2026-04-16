@@ -15,4 +15,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer>{
 
     List<Doctor> findAllByOrderByYearsOfExperienceAsc();
 
+    Optional<Doctor> findByEmail(String email);
+
 }
