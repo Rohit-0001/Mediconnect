@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.edutech.progressive.entity.Patient;
 import com.edutech.progressive.exception.PatientAlreadyExistsException;
 import com.edutech.progressive.exception.PatientNotFoundException;
+import com.edutech.progressive.repository.BillingRepository;
 import com.edutech.progressive.repository.PatientRepository;
 import com.edutech.progressive.service.PatientService;
 
@@ -20,6 +22,9 @@ public class PatientServiceImplJpa implements PatientService {
 
     PatientRepository patientRepository;
     
+    @Autowired
+    private BillingRepository billingRepository;
+
     public PatientServiceImplJpa(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
     }
@@ -59,6 +64,7 @@ public class PatientServiceImplJpa implements PatientService {
     public Patient getPatientById(int patientId) throws SQLException {
         Optional<Patient> p = patientRepository.findById(patientId);
         if(p.isPresent()){
+            billingRepository.deleteByPatientId(patientId);
             return patientRepository.findById(patientId).get();
         }
         throw new PatientNotFoundException("Patient not found");
