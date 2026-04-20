@@ -8,21 +8,21 @@ import java.util.List;
 
 public interface PatientService {
 
-    List<Patient> getAllPatients() throws SQLException;
+    List<PatientDTO> getAllPatients() throws SQLException;
 
-    Integer addPatient(Patient patient) throws SQLException;
+    Integer addPatient(PatientDTO patientDTO) throws SQLException;
 
-    List<Patient> getAllPatientSortedByName() throws SQLException;
+    List<PatientDTO> getAllPatientSortedByName() throws SQLException;
 
     default void emptyArrayList() throws SQLException {
     }
 
     //Do not implement these methods in PatientServiceImplArraylist.java class
-    default void updatePatient(Patient patient) throws SQLException {}
+    default void updatePatient(PatientDTO patientDTO) throws SQLException {}
 
     default void deletePatient(int patientId) throws SQLException {}
 
-    default Patient getPatientById(int patientId) throws SQLException {
+    default PatientDTO getPatientById(int patientId) throws SQLException {
         return null;
     }
 

@@ -1,9 +1,10 @@
 package com.edutech.progressive.controller;
 
+import com.edutech.progressive.dto.PatientDTO;
 import com.edutech.progressive.entity.Patient;
 import com.edutech.progressive.service.PatientService;
-import com.edutech.progressive.service.impl.PatientServiceImplArraylist;
-import com.edutech.progressive.service.impl.PatientServiceImplJdbc;
+// import com.edutech.progressive.service.impl.PatientServiceImplArraylist;
+// import com.edutech.progressive.service.impl.PatientServiceImplJdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Patient>> getAllPatients() {
+    public ResponseEntity<List<PatientDTO>> getAllPatients() {
         try {
             return new ResponseEntity<>(patientService.getAllPatients(), HttpStatus.OK);
         } catch (Exception e) {
@@ -40,7 +41,7 @@ public class PatientController {
     }
 
     @GetMapping("/{patientID}")
-    public ResponseEntity<Patient> getPatientById(@PathVariable("patientID") int patientId) {
+    public ResponseEntity<PatientDTO> getPatientById(@PathVariable("patientID") int patientId) {
         try {
             return new ResponseEntity<>(patientService.getPatientById(patientId), HttpStatus.OK);
         } catch (Exception e) {
@@ -49,7 +50,7 @@ public class PatientController {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> addPatient(@RequestBody Patient patient) {
+    public ResponseEntity<Integer> addPatient(@RequestBody PatientDTO patient) {
         try {
             return new ResponseEntity<>(patientService.addPatient(patient), HttpStatus.OK);
         } catch (Exception e) {
@@ -58,7 +59,7 @@ public class PatientController {
     }
 
     @PutMapping("/{patientID}")
-    public ResponseEntity<Void> updatePatient(@PathVariable("patientID") int patientId, @RequestBody Patient patient) {
+    public ResponseEntity<Void> updatePatient(@PathVariable("patientID") int patientId, @RequestBody PatientDTO patient) {
         try {
             patient.setPatientId(patientId);
             patientService.updatePatient(patient);
@@ -79,7 +80,7 @@ public class PatientController {
     }
 
     @GetMapping("/fromArrayList")
-    public ResponseEntity<List<Patient>> getAllPatientFromArrayList() {
+    public ResponseEntity<List<PatientDTO>> getAllPatientFromArrayList() {
         // return new ResponseEntity<>(HttpStatus.OK);
         try {
             return new ResponseEntity<>(patientService.getAllPatients(), HttpStatus.OK);
@@ -100,7 +101,7 @@ public class PatientController {
     }
 
     @GetMapping("/fromArrayList/sorted")
-    public ResponseEntity<List<Patient>> getAllPatientSortedByNameFromArrayList() {
+    public ResponseEntity<List<PatientDTO>> getAllPatientSortedByNameFromArrayList() {
         //return new ResponseEntity<>(HttpStatus.OK);
         try {
             return new ResponseEntity<>(patientService.getAllPatientSortedByName(), HttpStatus.OK);

@@ -1,5 +1,6 @@
 package com.edutech.progressive.controller;
 
+import com.edutech.progressive.dto.DoctorDTO;
 import com.edutech.progressive.entity.Doctor;
 import com.edutech.progressive.service.DoctorService;
 
@@ -25,7 +26,7 @@ public class DoctorController {
     DoctorService doctorService;
 
     @GetMapping
-    public ResponseEntity<List<Doctor>> getAllDoctors() {
+    public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
         try {
             return new ResponseEntity<>(doctorService.getAllDoctors(),HttpStatus.OK);
         } catch (SQLException e) {
@@ -34,7 +35,7 @@ public class DoctorController {
     }
 
     @GetMapping("/{doctorID}")
-    public ResponseEntity<Doctor> getDoctorById(@PathVariable("doctorID") int doctorId) {
+    public ResponseEntity<DoctorDTO> getDoctorById(@PathVariable("doctorID") int doctorId) {
         try {
             return new ResponseEntity<>(doctorService.getDoctorById(doctorId), HttpStatus.OK);
         } catch (SQLException e) {
@@ -43,7 +44,7 @@ public class DoctorController {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> addDoctor(@RequestBody Doctor doctor) {
+    public ResponseEntity<Integer> addDoctor(@RequestBody DoctorDTO doctor) {
         try {
             return new ResponseEntity<>(doctorService.addDoctor(doctor), HttpStatus.CREATED);
         } catch (SQLException e) {
@@ -52,7 +53,7 @@ public class DoctorController {
     }
 
     @PutMapping("/{doctorID}")
-    public ResponseEntity<Void> updateDoctor(@PathVariable("doctorID") int doctorId, @RequestBody Doctor doctor) {
+    public ResponseEntity<Void> updateDoctor(@PathVariable("doctorID") int doctorId, @RequestBody DoctorDTO doctor) {
         try {
             doctorService.updateDoctor(doctor);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -74,7 +75,7 @@ public class DoctorController {
     }
 
     @GetMapping("/experience")
-    public ResponseEntity<List<Doctor>> getDoctorSortedByExperience() {
+    public ResponseEntity<List<DoctorDTO>> getDoctorSortedByExperience() {
         try {
             return new ResponseEntity<>(doctorService.getDoctorSortedByExperience(),HttpStatus.OK);
         } catch (SQLException e) {

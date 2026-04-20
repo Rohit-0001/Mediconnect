@@ -1,12 +1,14 @@
 package com.edutech.progressive.service.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.edutech.progressive.dto.DoctorDTO;
 import com.edutech.progressive.entity.Doctor;
 import com.edutech.progressive.exception.DoctorAlreadyExistsException;
 import com.edutech.progressive.repository.ClinicRepository;
@@ -26,13 +28,20 @@ public class DoctorServiceImplJpa implements DoctorService {
     ClinicRepository clinicRepository;
 
     @Override
-    public List<Doctor> getAllDoctors() throws SQLException {
-        return doctorRepository.findAll();
+    public List<DoctorDTO> getAllDoctors() throws SQLException {
+        List<Doctor> doctors = doctorRepository.findAll();
+        List<DoctorDTO> doctorDTOs = new ArrayList<>();
+        for(Doctor d : doctors){
+            doctorDTOs.add(convertToDto(d));
+        }
+        return doctorDTOs;
     }
 
     @Override
-    public Integer addDoctor(Doctor doctor) throws SQLException {
-        if(doctorRepository.findByEmail(doctor.getEmail()).isPresent()){
+    public Integer addDoctor(DoctorDTO doctorDTO) throws SQLException {
+        Doctor doctor = convertToEntity(doctorDTO);
+        Optional<Doctor> d = doctorRepository.findByEmail(doctor.getEmail());
+        if(d.isPresent()){
             throw new DoctorAlreadyExistsException("Doctor already exists");
         }
         doctorRepository.save(doctor);
@@ -40,19 +49,18 @@ public class DoctorServiceImplJpa implements DoctorService {
     }
 
     @Override
-    public List<Doctor> getDoctorSortedByExperience() throws SQLException {
-        return doctorRepository.findAllByOrderByYearsOfExperienceAsc();
+    public List<DoctorDTO> getDoctorSortedByExperience() throws SQLException {
+        List<Doctor> doctors = doctorRepository.findAllByOrderByYearsOfExperienceAsc();
+        List<DoctorDTO> doctorDTOs = new ArrayList<>();
+        for(Doctor d : doctors){
+            doctorDTOs.add(convertToDto(d));
+        }
+        return doctorDTOs;
     }
 
-    public void updateDoctor(Doctor doctor) throws SQLException {
-        Doctor existingDoctor = doctorRepository.findByDoctorId(doctor.getDoctorId()).orElse(null);
-        if (existingDoctor != null) {
-            existingDoctor.setFullName(doctor.getFullName());
-            existingDoctor.setSpecialty(doctor.getSpecialty());
-            existingDoctor.setYearsOfExperience(doctor.getYearsOfExperience());
-            existingDoctor.setClinic(doctor.getClinic());
-            doctorRepository.save(existingDoctor);
-        }
+    public void updateDoctor(DoctorDTO doctorDTO) throws SQLException {
+        Doctor doctor = convertToEntity(doctorDTO);
+        doctorRepository.save(doctor);
     }
 
     public void deleteDoctor(int doctorId) throws SQLException {
@@ -63,12 +71,36 @@ public class DoctorServiceImplJpa implements DoctorService {
         }
     }
 
-    public Doctor getDoctorById(int doctorId) throws SQLException {
+    public DoctorDTO getDoctorById(int doctorId) throws SQLException {
         Optional<Doctor> doctor = doctorRepository.findByDoctorId(doctorId);
         if(doctor.isPresent()){
-            return doctor.get();
+            return convertToDto(doctor.get());
         }
         return null;
+    }
+
+    public Doctor convertToEntity(DoctorDTO dto){
+        Doctor doctor = new Doctor();
+
+        doctor.setDoctorId(dto.getDoctorId());
+        doctor.setFullName(dto.getFullName());
+        doctor.setSpecialty(dto.getSpecialty());
+        doctor.setContactNumber(dto.getContactNumber());
+        doctor.setEmail(dto.getEmail());
+        doctor.setYearsOfExperience(dto.getYearsOfExperience());
+        return doctor;
+    }
+
+    public DoctorDTO convertToDto(Doctor doctor){
+        DoctorDTO doctorDTO = new DoctorDTO();
+
+        doctorDTO.setDoctorId(doctor.getDoctorId());
+        doctorDTO.setFullName(doctor.getFullName());
+        doctorDTO.setSpecialty(doctor.getSpecialty());
+        doctorDTO.setContactNumber(doctor.getContactNumber());
+        doctorDTO.setEmail(doctor.getEmail());
+        doctorDTO.setYearsOfExperience(doctor.getYearsOfExperience());
+        return doctorDTO;
     }
 
 }

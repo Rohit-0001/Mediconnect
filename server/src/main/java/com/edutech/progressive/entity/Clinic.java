@@ -68,6 +68,14 @@ public class Clinic {
         this.doctorId = doctorId;
     }
 
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
     public String getContactNumber() {
         return contactNumber;
     }
