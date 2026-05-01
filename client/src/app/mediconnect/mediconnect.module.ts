@@ -9,7 +9,11 @@ import { DoctorCreateComponent } from "./components/doctorcreate/doctorcreate.co
 import { ClinicCreateComponent } from "./components/cliniccreate/cliniccreate.component";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    PatientCreateComponent,
+    DoctorCreateComponent,
+    ClinicCreateComponent
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
