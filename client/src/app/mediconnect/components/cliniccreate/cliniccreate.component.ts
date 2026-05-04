@@ -1,79 +1,75 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Clinic } from '../../models/Clinic';
+import { Doctor } from '../../models/Doctor';
+import { MediConnectService } from '../../services/mediconnect.service';
 
 @Component({
-  selector: 'app-cliniccreate',
-  templateUrl: './cliniccreate.component.html',
-  styleUrls: ['./cliniccreate.component.scss']
+    selector: 'app-cliniccreate',
+    templateUrl: './cliniccreate.component.html',
+    styleUrls: ['./cliniccreate.component.scss']
 })
 export class ClinicCreateComponent implements OnInit {
-  clinicForm!: FormGroup;
+    clinicForm!: FormGroup;
+    successMessage: string | null = null;
+    errorMessage: string | null = null;
+    doctor!: Doctor;
 
-  successMessage: string | null = null;
-  errorMessage: string | null = null;
+    constructor(private formBuilder: FormBuilder, private mediconnectService: MediConnectService) { }
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.initializeForm();
-  }
-
-  initializeForm(): void {
-    this.clinicForm = this.formBuilder.group({
-      clinicId: [null, [Validators.required, Validators.min(1)]],
-      clinicName: ['', [Validators.required, Validators.minLength(2)]],
-      location: ['', Validators.required],
-      contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      establishedYear: [null, [Validators.required, Validators.min(1)]]
-    });
-  }
-
-  onSubmit(): void {
-    if (this.clinicForm.valid) {
-      this.successMessage = 'Clinic has been successfully created!';
-      this.errorMessage = null;
-
-      console.log('Clinic Created:', this.clinicForm.value);
-
-      this.resetForm();
-    } else {
-      this.errorMessage = 'Please fill out all required fields correctly.';
-      this.successMessage = null;
-
-      this.clinicForm.markAllAsTouched();
+    ngOnInit(): void {
+        var doctorId = Number(localStorage.getItem("doctor_id"));
+        this.clinicForm = this.formBuilder.group({
+            doctor: [{ value: '', disabled: true }],
+            clinicId: [null],
+            clinicName: ['', [Validators.required, Validators.minLength(2)]],
+            location: ['', [Validators.required]],
+            contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+            establishedYear: [null, [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
+        });
+        this.mediconnectService.getDoctorById(doctorId).subscribe({
+            next: (response) => {
+                this.doctor = response;
+                this.clinicForm.patchValue({ doctor: this.doctor.fullName });
+            },
+            error: (error) => console.log('Error loading loggedIn doctor details', error),
+        });
     }
-  }
+    
 
-  resetForm(): void {
-    this.clinicForm.reset({
-      clinicId: null,
-      clinicName: '',
-      location: '',
-      contactNumber: '',
-      establishedYear: null
-    });
+    onSubmit(): void {
+        if (this.clinicForm.valid) {
+            const clinic: Clinic = {
+                ...this.clinicForm.getRawValue(),
+                doctor: this.doctor,
+            };
+            this.mediconnectService.addClinic(clinic).subscribe({
+                next: (response) => {
+                    this.errorMessage = null;
+                    console.log(response);
+                    this.clinicForm.reset();
+                    this.successMessage = 'Clinic created successfully!';
+                },
+                error: (error) => {
+                    this.handleError(error);
+                }
+            });
+        }
+    }
 
-    // this.successMessage = null;
-    // this.errorMessage = null;
-  }
-
-  get clinicId() {
-    return this.clinicForm.get('clinicId');
-  }
-
-  get clinicName() {
-    return this.clinicForm.get('clinicName');
-  }
-
-  get location() {
-    return this.clinicForm.get('location');
-  }
-
-  get contactNumber() {
-    return this.clinicForm.get('contactNumber');
-  }
-
-  get establishedYear() {
-    return this.clinicForm.get('establishedYear');
-  }
+    private handleError(error: HttpErrorResponse): void {
+        if (error.error instanceof ErrorEvent) {
+            // Client-side error
+            this.errorMessage = `Client-side error: ${error.error.message}`;
+        } else {
+            // Backend error
+            this.errorMessage = `Server-side error: ${error.status} ${error.message}`;
+            // Optionally, you can handle different status codes here
+            if (error.status === 400) {
+                this.errorMessage = 'Bad request. Please check your input.';
+            }
+        }
+        this.successMessage = null;
+    }
 }

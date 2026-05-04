@@ -1,85 +1,68 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MediConnectService } from '../../services/mediconnect.service';
 
 @Component({
-  selector: 'app-patientcreate',
-  templateUrl: './patientcreate.component.html',
-  styleUrls: ['./patientcreate.component.scss']
+    selector: 'app-patientcreate',
+    templateUrl: './patientcreate.component.html',
+    styleUrls: ['./patientcreate.component.scss']
 })
 export class PatientCreateComponent implements OnInit {
-  patientForm!: FormGroup;
+    patientForm!: FormGroup; // Reactive form for the patient
+    successMessage: string | null = null;
+    errorMessage: string | null = null;
 
-  successMessage: string | null = null;
-  errorMessage: string | null = null;
+    constructor(private formBuilder: FormBuilder, private mediconnectService: MediConnectService) { }
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.initializeForm();
-  }
-
-  initializeForm(): void {
-    this.patientForm = this.formBuilder.group({
-      patientId: [null, [Validators.required, Validators.min(1)]],
-      fullName: ['', [Validators.required, Validators.minLength(2)]],
-      dateOfBirth: ['', Validators.required],
-      contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      email: ['', [Validators.required, Validators.email]],
-      address: ['', [Validators.required, Validators.minLength(5)]]
-    });
-  }
-
-  onSubmit(): void {
-    if (this.patientForm.valid) {
-      this.successMessage = 'Patient has been successfully created!';
-      this.errorMessage = null;
-
-      console.log('Patient Created:', this.patientForm.value);
-
-      this.resetForm();
-    } else {
-      this.errorMessage = 'Please fill out all required fields correctly.';
-      this.successMessage = null;
-
-      this.patientForm.markAllAsTouched();
+    ngOnInit(): void {
+        this.initializeForm();
     }
-  }
 
-  resetForm(): void {
-    this.patientForm.reset({
-      patientId: null,
-      fullName: '',
-      dateOfBirth: '',
-      contactNumber: '',
-      email: '',
-      address: ''
-    });
+    initializeForm(): void {
+        this.patientForm = this.formBuilder.group({
+            patientId: [null],
+            fullName: ['', [Validators.required, Validators.minLength(2)]],
+            dateOfBirth: ['', [Validators.required]],
+            contactNumber: [
+                '',
+                [Validators.required, Validators.pattern('^[0-9]{10}$')]
+            ],
+            email: ['', [Validators.required, Validators.email]],
+            address: ['', [Validators.required, Validators.minLength(5)]]
+        });
+    }
 
-    this.successMessage = null;
-    this.errorMessage = null;
-  }
+    onSubmit(): void {
+        if (this.patientForm.valid) {
+            this.mediconnectService.addPatient(this.patientForm.value).subscribe({
+                next: (response) => {
+                    this.errorMessage = null;
+                    console.log(response);
+                    this.patientForm.reset();
+                },
+                error: (error) => {
+                    this.handleError(error);
+                },
+                complete: () => {
+                    this.successMessage = 'Patient created successfully!';
+                }
+            });
+        }
+    }
 
-  get patientId() {
-    return this.patientForm.get('patientId');
-  }
-
-  get fullName() {
-    return this.patientForm.get('fullName');
-  }
-
-  get dateOfBirth() {
-    return this.patientForm.get('dateOfBirth');
-  }
-
-  get contactNumber() {
-    return this.patientForm.get('contactNumber');
-  }
-
-  get email() {
-    return this.patientForm.get('email');
-  }
-
-  get address() {
-    return this.patientForm.get('address');
-  }
+    private handleError(error: HttpErrorResponse): void {
+        if (error.error instanceof ErrorEvent) {
+            // Client-side error
+            this.errorMessage = `Client-side error: ${error.error.message}`;
+        } else {
+            // Backend error
+            this.errorMessage = `Server-side error: ${error.status} ${error.message}`;
+            // Optionally, you can handle different status codes here
+            if (error.status === 400) {
+                this.errorMessage = 'Bad request. Please check your input.';
+            }
+        }
+        this.successMessage = null;
+    }
 }
