@@ -1,75 +1,43 @@
-.form-container {
-  width: 420px;
-  margin: 30px auto;
-  padding: 25px;
-  border-radius: 10px;
-  background-color: #f8f9fa;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
+.clinic-card {
+  border-radius: 6px;
+  max-width: 520px;
+  margin: 0 auto;
 }
 
-.form-group {
-  margin-bottom: 15px;
-
-  label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-
-  input {
-    width: 100%;
-    padding: 9px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-  }
+.form-label {
+  font-size: 14px;
+  color: #333;
 }
 
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-
-  button {
-    padding: 9px 18px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    background-color: #007bff;
-  }
-
-  button[type='button'] {
-    background-color: #6c757d;
-  }
-
-  button:hover {
-    opacity: 0.9;
-  }
+.form-control {
+  height: 38px;
+  font-size: 14px;
+  border-radius: 3px;
 }
 
-.error {
-  color: red;
+.text-danger {
+  color: #e35d6a !important;
   font-size: 13px;
-  margin-top: 4px;
 }
 
-.success-message {
-  color: green;
-  margin-top: 15px;
-  font-weight: 600;
-  text-align: center;
+h2 {
+  font-size: 26px;
+  color: #333;
 }
 
-.error-message {
-  color: red;
-  margin-top: 15px;
+.btn-secondary {
+  background-color: #bcbcbc;
+  border-color: #bcbcbc;
+  color: white;
   font-weight: 600;
-  text-align: center;
+}
+
+.btn-secondary:hover {
+  background-color: #a9a9a9;
+  border-color: #a9a9a9;
+}
+
+.alert {
+  font-size: 14px;
+  padding: 8px 12px;
 }

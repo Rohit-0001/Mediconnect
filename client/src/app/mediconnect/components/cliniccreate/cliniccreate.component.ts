@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Clinic } from '../../models/Clinic';
 import { Doctor } from '../../models/Doctor';
 import { MediConnectService } from '../../services/mediconnect.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cliniccreate',
@@ -16,10 +17,11 @@ export class ClinicCreateComponent implements OnInit {
   successMessage: string | null = null;
   errorMessage: string | null = null;
   doctor!: Doctor;
+  doctorId!: number;
 
   constructor(
     private formBuilder: FormBuilder,
-    private mediconnectService: MediConnectService
+    private mediconnectService: MediConnectService, private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -73,27 +75,34 @@ export class ClinicCreateComponent implements OnInit {
   onSubmit(): void {
     if (this.clinicForm.invalid) {
       this.clinicForm.markAllAsTouched();
-      this.errorMessage = 'Please fill all clinic details correctly.';
-      this.successMessage = null;
+      this.errorMessage = 'Please fill all required fields correctly.';
       return;
     }
 
-    const clinic: Clinic = {
-      ...this.clinicForm.getRawValue(),
-      doctor: this.doctor,
+    //  FIXED: send doctorId as number, not whole doctor object
+    const clinicPayload = {
+      ...this.clinicForm.value,
+      doctorId: this.doctorId
     };
 
-    this.mediconnectService.addClinic(clinic).subscribe({
-      next: (response) => {
-        this.errorMessage = null;
-        console.log(response);
+    console.log('Creating clinic:', clinicPayload);
 
-        this.resetForm();
-
+    this.mediconnectService.addClinic(clinicPayload).subscribe({
+      next: () => {
         this.successMessage = 'Clinic created successfully!';
+        this.errorMessage = '';
+        setTimeout(() => this.router.navigate(['mediconnect']), 1500);
       },
-      error: (error) => {
-        this.handleError(error);
+      error: (err) => {
+        console.error('Create clinic failed:', err);
+        if (err.status === 400) {
+          this.errorMessage = 'Bad request. Please check your input.';
+        } else if (err.status === 401) {
+          this.errorMessage = 'Unauthorized. Please login again.';
+        } else {
+          this.errorMessage = err?.error?.message || 'An unexpected error occurred.';
+        }
+        this.successMessage = '';
       }
     });
   }

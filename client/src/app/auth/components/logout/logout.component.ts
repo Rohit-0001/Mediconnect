@@ -17,7 +17,7 @@ export class LogoutComponent {
       localStorage.removeItem('doctor_id');
       localStorage.removeItem('patient_id');
     } finally {
-      this.router.navigateByUrl('/auth');
+      this.router.navigateByUrl('/');
     }
   }
 }

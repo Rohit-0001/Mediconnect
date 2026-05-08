@@ -20,7 +20,7 @@ public class Doctor implements Comparable<Doctor> {
     private String email;
     private int yearsOfExperience;
     @ManyToOne
-    @JoinColumn(name = "doctors")
+    @JoinColumn(name = "clinic_id")
     @JsonBackReference
     private Clinic clinic;
     public Doctor() {
