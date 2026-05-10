@@ -1,0 +1,276 @@
+/* register.component.css */
+
+/* Page background */
+.container {
+  min-height: 100vh;
+  max-width: 100%;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #e0f7fa 0%, #f4fbff 45%, #dbeafe 100%);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Center row properly */
+.row {
+  min-height: calc(100vh - 80px);
+  align-items: center;
+}
+
+/* Form card */
+.col-md-6 {
+  width: 100%;
+  max-width: 650px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 35px 34px;
+  border-radius: 20px;
+  box-shadow: 0 22px 48px rgba(14, 116, 144, 0.18);
+  border: 1px solid rgba(14, 165, 233, 0.18);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Heading */
+h2 {
+  text-align: center;
+  margin-bottom: 28px;
+  font-size: 31px;
+  font-weight: 700;
+  color: #075985;
+  letter-spacing: 0.4px;
+  position: relative;
+}
+
+h2::after {
+  content: "Create your MediConnect account";
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f766e;
+  letter-spacing: 0.5px;
+}
+
+/* Form spacing */
+.form-group {
+  margin-bottom: 19px;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Common input, select and textarea style */
+.form-control {
+  width: 100%;
+  padding: 13px 15px;
+  font-size: 15px;
+  color: #0f172a;
+  background-color: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: none;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+}
+
+.form-control::placeholder {
+  color: #94a3b8;
+}
+
+.form-control:focus {
+  background-color: #ffffff;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+}
+
+/* Select dropdown */
+select.form-control {
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #0284c7 50%),
+    linear-gradient(135deg, #0284c7 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 3px),
+    calc(100% - 13px) calc(50% - 3px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+/* Textarea */
+textarea.form-control {
+  min-height: 90px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Angular validation states */
+.form-control.ng-invalid.ng-touched {
+  border-color: #ef4444;
+  background-color: #fff7f7;
+}
+
+.form-control.ng-valid.ng-touched {
+  border-color: #14b8a6;
+}
+
+/* Validation error text */
+.text-danger {
+  margin-top: 7px;
+  font-size: 13px;
+  color: #dc2626 !important;
+  line-height: 1.4;
+}
+
+/* Alert messages */
+.alert {
+  padding: 13px 15px;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+}
+
+.alert-success {
+  color: #047857;
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+.alert-danger {
+  color: #b91c1c;
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+/* Button common style */
+.btn {
+  padding: 13px 24px;
+  border-radius: 11px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Register button */
+.btn-success {
+  background: linear-gradient(135deg, #0284c7, #0f766e);
+  color: #ffffff;
+  box-shadow: 0 10px 22px rgba(2, 132, 199, 0.25);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #0369a1, #0d9488);
+  box-shadow: 0 14px 28px rgba(2, 132, 199, 0.32);
+}
+
+.btn-success:active {
+  transform: translateY(0);
+}
+
+/* Reset button */
+.btn-secondary {
+  background-color: #e2e8f0;
+  color: #334155;
+  box-shadow: 0 8px 18px rgba(100, 116, 139, 0.18);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  background-color: #cbd5e1;
+  color: #0f172a;
+}
+
+/* Button spacing */
+.me-2 {
+  margin-right: 10px;
+}
+
+/* Disabled submit button if you add [disabled] */
+.btn:disabled {
+  background: #94a3b8;
+  color: #ffffff;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Doctor extra fields smooth look */
+div[ng-reflect-ng-if],
+form > div {
+  transition: all 0.25s ease;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 25px 14px;
+  }
+
+  .col-md-6 {
+    padding: 30px 24px;
+    border-radius: 17px;
+  }
+
+  h2 {
+    font-size: 27px;
+  }
+
+  .btn {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .me-2 {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .col-md-6 {
+    padding: 26px 20px;
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+
+  h2::after {
+    font-size: 13px;
+  }
+
+  .form-control {
+    padding: 12px 13px;
+  }
+}
+.login-link {
+  color: #0284c7;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  color: #0f766e;
+  text-decoration: underline;
+}

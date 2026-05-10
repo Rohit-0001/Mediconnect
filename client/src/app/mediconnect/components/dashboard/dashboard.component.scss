@@ -1,134 +1,295 @@
-.dashboard-container {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* dashboard.component.css */
 
-  h1 {
-    text-align: center;
-    font-size: 2.4rem;
-    color: #333;
-    margin-bottom: 20px;
+/* Main dashboard layout */
+.dashboard-container {
+  min-height: 100vh;
+  padding: 32px;
+  background: #f4f9fb;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #0f172a;
+}
+
+/* Page title */
+.dashboard-container h1 {
+  margin-bottom: 28px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #075985;
+  letter-spacing: 0.3px;
+}
+
+/* Section cards */
+.doctor-details,
+.patient-details,
+.clinic-section,
+.appointments-section,
+.patients-section,
+.doctor-section {
+  background: #ffffff;
+  padding: 24px;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+/* Section headings */
+.doctor-details h2,
+.patient-details h2,
+.clinic-section h2,
+.appointments-section h2,
+.patients-section h2,
+.doctor-section h2 {
+  margin-bottom: 18px;
+  font-size: 21px;
+  font-weight: 700;
+  color: #0f766e;
+  border-left: 4px solid #0ea5e9;
+  padding-left: 10px;
+}
+
+/* Details text */
+.doctor-details p,
+.patient-details p {
+  margin: 9px 0;
+  font-size: 15px;
+  color: #334155;
+}
+
+.doctor-details strong,
+.patient-details strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Empty message */
+.empty-list {
+  padding: 18px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  text-align: center;
+  color: #64748b;
+  font-size: 15px;
+}
+
+.empty-list p {
+  margin: 0;
+}
+
+/* Tables */
+.clinics-table,
+.appointments-table,
+.patients-table,
+.doctors-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+/* Table header */
+.clinics-table thead,
+.appointments-table thead,
+.patients-table thead,
+.doctors-table thead {
+  background: #e0f2fe;
+}
+
+.clinics-table th,
+.appointments-table th,
+.patients-table th,
+.doctors-table th {
+  padding: 14px 15px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+  color: #075985;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+/* Table body */
+.clinics-table td,
+.appointments-table td,
+.patients-table td,
+.doctors-table td {
+  padding: 14px 15px;
+  font-size: 14px;
+  color: #334155;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Row hover */
+.clinics-table tbody tr,
+.appointments-table tbody tr,
+.patients-table tbody tr,
+.doctors-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.clinics-table tbody tr:hover,
+.appointments-table tbody tr:hover,
+.patients-table tbody tr:hover,
+.doctors-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Selected clinic row */
+.clinics-table tr.selected {
+  background-color: #ecfeff;
+  border-left: 4px solid #0ea5e9;
+}
+
+.clinics-table tr.selected td {
+  color: #075985;
+  font-weight: 600;
+}
+
+/* Buttons */
+button {
+  font-family: inherit;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-success,
+.btn-disabled {
+  padding: 8px 14px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Edit / Accept style */
+.btn-edit,
+.btn-success {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.btn-edit:hover,
+.btn-success:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+/* Delete / Cancel style */
+.btn-delete {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+/* Disabled button */
+.btn-disabled,
+button:disabled {
+  background: #e2e8f0 !important;
+  color: #94a3b8 !important;
+  cursor: not-allowed;
+}
+
+/* Action column */
+.actions-cell {
+  white-space: nowrap;
+}
+
+/* Status styling using text match is not possible directly in CSS,
+   but this gives status cells a cleaner look */
+.appointments-table td:nth-child(4) {
+  font-weight: 700;
+  color: #0f766e;
+}
+
+/* Add subtle animation */
+.doctor-details,
+.patient-details,
+.clinic-section,
+.appointments-section,
+.patients-section,
+.doctor-section {
+  animation: fadeIn 0.35s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive dashboard */
+@media (max-width: 992px) {
+  .dashboard-container {
+    padding: 24px;
   }
 
   .doctor-details,
+  .patient-details,
   .clinic-section,
   .appointments-section,
-  .patient-details,
-  .doctor-section,
-  .patients-section {
-    margin-bottom: 30px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-
-    h2 {
-      font-size: 1.8rem;
-      color: #555;
-      margin-bottom: 15px;
-    }
-
-    p {
-      font-size: 1.2rem;
-      color: #666;
-      margin-bottom: 8px;
-
-      strong {
-        color: #333;
-      }
-    }
-
+  .patients-section,
+  .doctor-section {
+    padding: 20px;
   }
 
   .clinics-table,
   .appointments-table,
   .patients-table,
   .doctors-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
 
-    th,
-    td {
-      padding: 12px 15px;
-      text-align: left;
-      border: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #4caf50;
-      color: white;
-      font-weight: bold;
-    }
-
-    td {
-      font-size: 1rem;
-      color: #333;
-    }
-
-    tr {
-      &:hover {
-        background-color: #f1f1f1;
-      }
-
-      &.selected {
-        background-color: #e0f7fa;
-        font-weight: bold;
-        cursor: pointer;
-      }
-    }
+@media (max-width: 576px) {
+  .dashboard-container {
+    padding: 18px;
   }
 
-  .empty-list {
-    padding: 15px;
-    background-color: #ffe6e6;
-    border: 1px solid #ffcccc;
-    border-radius: 8px;
-    text-align: center;
+  .dashboard-container h1 {
+    font-size: 25px;
+    margin-bottom: 22px;
+  }
 
-    p {
-      font-size: 1.2rem;
-      color: #d9534f;
-      margin: 0;
-    }
+  .doctor-details h2,
+  .patient-details h2,
+  .clinic-section h2,
+  .appointments-section h2,
+  .patients-section h2,
+  .doctor-section h2 {
+    font-size: 18px;
   }
 
   .btn-edit,
-  .btn-delete {
-    margin: 5px;
-    padding: 10px 15px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  .btn-delete,
+  .btn-success,
+  .btn-disabled {
+    padding: 7px 11px;
+    font-size: 12px;
+    margin-bottom: 6px;
   }
 
-  .btn-edit {
-    background-color: #007bff;
-    color: white;
-  }
-
-  .btn-delete {
-    background-color: #dc3545;
-    color: white;
-  }
-
-  .btn-save {
-    background-color: #28a745;
-    color: white;
-  }
-
-  .btn-cancel {
-    background-color: #6c757d;
-    color: white;
-  }
-
-  button.btn-delete:disabled {
-    background-color: #ccc;
-    color: #666;
-    cursor: not-allowed;
+  .doctor-details,
+  .patient-details,
+  .clinic-section,
+  .appointments-section,
+  .patients-section,
+  .doctor-section {
+    border-radius: 13px;
   }
 }

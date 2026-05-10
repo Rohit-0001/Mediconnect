@@ -1,0 +1,224 @@
+/* update-patient.component.css / update-patient.component.scss */
+
+/* Page background */
+.container {
+  min-height: calc(100vh - 70px);
+  max-width: 100%;
+  padding: 36px 18px !important;
+  background-color: #f4f9fb;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #0f172a;
+}
+
+/* Main card */
+.card {
+  max-width: 900px;
+  margin: 0 auto;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 18px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07) !important;
+  overflow: hidden;
+}
+
+/* Card body */
+.card-body {
+  padding: 30px !important;
+}
+
+/* Heading */
+.card-body h4 {
+  margin-bottom: 26px !important;
+  font-size: 27px;
+  font-weight: 700;
+  color: #075985;
+}
+
+.card-body h4::after {
+  content: "Update patient information";
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f766e;
+}
+
+/* Labels */
+.form-label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Inputs and textarea */
+.form-control {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  color: #0f172a;
+  background-color: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: none;
+  transition: 0.22s ease;
+}
+
+.form-control::placeholder {
+  color: #94a3b8;
+}
+
+.form-control:focus {
+  background-color: #ffffff;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.14);
+}
+
+/* Textarea */
+textarea.form-control {
+  min-height: 105px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Angular validation states */
+.form-control.ng-invalid.ng-touched {
+  border-color: #ef4444;
+  background-color: #fff7f7;
+}
+
+.form-control.ng-valid.ng-touched {
+  border-color: #14b8a6;
+}
+
+/* Button row */
+.d-flex {
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 24px !important;
+}
+
+/* Common buttons */
+.btn {
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: 0.25s ease;
+  text-decoration: none;
+}
+
+/* Submit button */
+.btn-primary {
+  min-width: 140px;
+  padding: 11px 22px;
+  border: none;
+  background: linear-gradient(135deg, #0284c7, #0f766e);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(2, 132, 199, 0.22);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #0369a1, #0d9488);
+  box-shadow: 0 12px 24px rgba(2, 132, 199, 0.28);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Disabled submit */
+.btn-primary:disabled,
+.btn:disabled {
+  background: #cbd5e1 !important;
+  color: #64748b !important;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Dashboard button */
+.btn-outline-secondary {
+  padding: 10px 18px;
+  border: 1.5px solid #0ea5e9;
+  background-color: #ffffff;
+  color: #0284c7;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #e0f2fe;
+  color: #075985;
+  border-color: #0284c7;
+  transform: translateY(-2px);
+}
+
+/* Alert messages */
+.alert {
+  padding: 13px 15px;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  text-align: center;
+}
+
+.alert-success {
+  color: #047857;
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+.alert-danger {
+  color: #b91c1c;
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 26px 14px !important;
+  }
+
+  .card-body {
+    padding: 24px !important;
+  }
+
+  .card-body h4 {
+    font-size: 25px;
+  }
+
+  .btn-primary,
+  .btn-outline-secondary {
+    width: 100%;
+  }
+
+  .d-flex {
+    flex-direction: column;
+    gap: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    border-radius: 15px;
+  }
+
+  .card-body {
+    padding: 22px 18px !important;
+  }
+
+  .card-body h4 {
+    font-size: 23px;
+  }
+
+  .card-body h4::after {
+    font-size: 13px;
+  }
+
+  .form-control {
+    padding: 11px 13px;
+  }
+}

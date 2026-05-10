@@ -56,11 +56,11 @@
 
         <div class="form-group mb-3">
           <label for="contactNumber">Contact Number:</label>
-          <input type="text" id="contactNumber" class="form-control" formControlName="contactNumber" />
+          <input type="text" id="contactNumber" maxlength="10" class="form-control" formControlName="contactNumber" />
 
           <div class="text-danger"
             *ngIf="registrationForm.get('contactNumber')?.touched && registrationForm.get('contactNumber')?.invalid">
-            Contact number is required.
+            Contact Number is required and must be a 10-digit number.
           </div>
         </div>
 
@@ -108,6 +108,12 @@
         <button type="button" class="btn btn-secondary" (click)="resetForm()">
           Reset
         </button>
+
+        <div class="text-center mt-3">
+          <a routerLink="/auth/login" class="login-link">
+            Already have an account? Login
+          </a>
+        </div>
 
       </form>
     </div>

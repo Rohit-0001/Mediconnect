@@ -46,10 +46,6 @@ export class MediConnectService {
     return this.http.delete<any>(`${this.baseUrl}/patient/${patientId}`);
   }
  
-  getAppointmentsByPatient(patientId: number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${this.baseUrl}/appointment/patient/${patientId}`);
-  }
- 
   // ---------------- DOCTOR API -------------------
   getDoctorById(doctorId: number): Observable<Doctor> {
     return this.http.get<Doctor>(`${this.baseUrl}/doctor/${doctorId}`);
@@ -97,25 +93,57 @@ export class MediConnectService {
   }
  
   // ---------------- APPOINTMENT API -------------------
+  // createAppointment(appointment: Appointment): Observable<any> {
+  //   return this.http.post<any>(`${this.baseUrl}/appointment`, appointment);
+  // }
+ 
+  // getAppointmentsByClinic(clinicId: number): Observable<Appointment[]> {
+  //   return this.http.get<Appointment[]>(`${this.baseUrl}/appointment/clinic/${clinicId}`);
+  // }
+ 
+  // getAppointmentById(appointmentId: number): Observable<Appointment> {
+  //   return this.http.get<Appointment>(`${this.baseUrl}/appointment/${appointmentId}`);
+  // }
+ 
+  // updateAppointment(appointment: Appointment): Observable<any> {
+  //   return this.http.put<any>(`${this.baseUrl}/appointment/${appointment.appointmentId}`, appointment);
+  // }
+ 
+  // deleteAppointment(appointmentId: number): Observable<any> {
+  //   return this.http.delete<any>(`${this.baseUrl}/appointment/${appointmentId}`);
+  // }
   createAppointment(appointment: Appointment): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/appointment`, appointment);
+    return this.http.post<Appointment>(`${this.baseUrl}/appointment`, appointment);
   }
- 
-  getAppointmentsByClinic(clinicId: number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${this.baseUrl}/appointment/clinic/${clinicId}`);
-  }
- 
-  getAppointmentById(appointmentId: number): Observable<Appointment> {
-    return this.http.get<Appointment>(`${this.baseUrl}/appointment/${appointmentId}`);
-  }
- 
+
   updateAppointment(appointment: Appointment): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/appointment/${appointment.appointmentId}`, appointment);
+    return this.http.put<Appointment>(`${this.baseUrl}/appointment/${appointment.appointmentId}`, appointment);
   }
- 
+
   deleteAppointment(appointmentId: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/appointment/${appointmentId}`);
   }
+
+  getAllAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.baseUrl}/appointment`);
+  }
+
+  getAppointmentById(appointmentId: number): Observable<Appointment> {
+    return this.http.get<Appointment>(`${this.baseUrl}/appointment/${appointmentId}`);
+  }
+
+  getAppointmentsByClinic(clinicId: number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.baseUrl}/appointment/clinic/${clinicId}`);
+  }
+
+  getAppointmentsByPatient(patientId: number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.baseUrl}/appointment/patient/${patientId}`);
+  }
+
+  getAppointmentsByStatus(status: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.baseUrl}/appointment/status/${status}`);
+  }
+
  
   // ---------------- USER API -------------------
   getUserById(userId: number): Observable<User> {

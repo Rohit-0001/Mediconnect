@@ -91,7 +91,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // Called by template button: <button (click)="deleteDoctor()">Delete</button>
   deleteDoctor(): void {
     if (!this.doctorId) { return; }
     this.successMessage = null;
@@ -105,12 +104,14 @@ export class DashboardComponent implements OnInit {
         this.clinics = [];
         this.selectClinicAppointments = [];
         this.appointments = [];
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1000);
       },
       error: () => (this.errorMessage = 'Failed to delete doctor')
     });
   }
 
-  // Called by template button: (click)="deleteClinic(clinic.clinicId)"
   deleteClinic(clinicId: number): void {
     if (!clinicId) { return; }
     this.successMessage = null;
@@ -161,22 +162,31 @@ export class DashboardComponent implements OnInit {
     this.successMessage = '';
     this.errorMessage = '';
 
+    appointment.status = 'Cancelled'
+
     this.mediconnectService.updateAppointment(appointment).subscribe({
       next: () => {
         this.successMessage = 'Appointment canceled.';
+        this.loadDoctorData;
       },
       error: () => (this.errorMessage = 'Failed to cancel appointment')
     });
   }
 
+  acceptAppointment(appointment: Appointment): void {
+    if (confirm('Accept this appointment?')) {
+      appointment.status = 'Accepted';
+      this.mediconnectService.updateAppointment(appointment).subscribe({
+        next: () => this.loadDoctorData()
+      });
+    }
+  }
 
   navigateToEditDoctor(): void {
-    // If you have a route like /mediconnect/doctor/edit/:doctorId
     this.router.navigate(['/mediconnect/doctor/edit', this.doctorId]);
   }
 
   navigateToEditClinic(id: number): void {
-    // If you have a route like /mediconnect/clinic/edit/:clinicId
     this.router.navigate(['/mediconnect/clinic/edit', id]);
   }
 
@@ -196,6 +206,20 @@ export class DashboardComponent implements OnInit {
       next: (c: Clinic[]) => (this.clinics = c),
       error: () => (this.errorMessage = 'Failed to fetch clinics'),
     });
+    this.mediconnectService.getClinicsByDoctorId(this.doctorId).subscribe({
+      next: (c: Clinic[]) => {
+        this.clinics = c;
+
+        // Automatically select first clinic and load appointments
+        if (this.clinics.length > 0) {
+          this.selectedClinicId = this.clinics[0].clinicId;
+          this.loadAppointments(this.selectedClinicId);
+        }
+      },
+      error: () => {
+        this.errorMessage = 'Failed to fetch clinics';
+      },
+    });
 
     this.mediconnectService.getAllDoctors().subscribe({
       next: (d: Doctor[]) => (this.doctors = d),
@@ -208,13 +232,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // Called by template button: <button (click)="navigateToEditPatient()">Edit</button>
   navigateToEditPatient(): void {
-    // If you have a route like /mediconnect/patient/edit
-    this.router.navigate(['/mediconnect/patient/edit']);
+    this.router.navigate(['/mediconnect/patient/edit',this.patientId]);
   }
 
-  // Called by template button: <button (click)="deletePatient()">Delete</button>
   deletePatient(): void {
     if (!this.patientId) { return; }
     this.successMessage = null;
@@ -225,6 +246,9 @@ export class DashboardComponent implements OnInit {
         this.successMessage = 'Patient deleted successfully.';
         this.patientDetails = undefined;
         this.appointments = [];
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1000);
       },
       error: () => (this.errorMessage = 'Failed to delete patient')
     });

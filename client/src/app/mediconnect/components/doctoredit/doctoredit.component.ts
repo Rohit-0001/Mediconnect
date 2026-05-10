@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup , Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MediConnectService } from '../../services/mediconnect.service';
 import { Doctor } from '../../models/Doctor';
@@ -16,6 +16,7 @@ export class DoctorEditComponent implements OnInit {
   doctorId!: number;
   doctor: Doctor | undefined;
   user: User | undefined;
+  userId!: number;
 
   successMessage: string | null = null;
   errorMessage: string | null = null;
@@ -24,11 +25,12 @@ export class DoctorEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private service: MediConnectService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.doctorId = Number(this.route.snapshot.paramMap.get('doctorId')) || 0;
-
+    // this.doctorId = Number(this.route.snapshot.paramMap.get('doctorId'));
+    this.doctorId = Number(localStorage.getItem('doctor_id') || 0);
+    this.userId = Number(localStorage.getItem('user_id') || 0);
     this.doctorForm = this.fb.group({
       fullName: [''],
       specialty: [''],
@@ -44,14 +46,12 @@ export class DoctorEditComponent implements OnInit {
 
   loadData(): void {
     this.errorMessage = null;
-
     // The Day-25 test expects this call and to reflect username/password in the form
-    this.service.getUserById(this.doctorId).subscribe({
+    this.service.getUserById(this.userId).subscribe({
       next: (u: User) => {
         this.user = u;
         this.doctorForm.patchValue({
-          username: u.username,
-          password: u.password
+          username: u.username
         });
       },
       error: () => {

@@ -29,7 +29,7 @@ export class RegistrationComponent implements OnInit {
       ]],
       role: ['', Validators.required],
       fullName: ['', Validators.required],
-      contactNumber: ['', Validators.required],
+      contactNumber: ['', Validators.required, Validators.pattern('^[0-9]{10}$')],
       email: ['', [Validators.required, Validators.email]],
       specialty: [''],
       yearsOfExperience: [''],

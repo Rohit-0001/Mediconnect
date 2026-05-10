@@ -73,38 +73,55 @@ export class ClinicCreateComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.clinicForm.invalid) {
-      this.clinicForm.markAllAsTouched();
-      this.errorMessage = 'Please fill all required fields correctly.';
-      return;
-    }
+    // if (this.clinicForm.invalid) {
+    //   this.clinicForm.markAllAsTouched();
+    //   this.errorMessage = 'Please fill all required fields correctly.';
+    //   return;
+    // }
 
-    //  FIXED: send doctorId as number, not whole doctor object
-    const clinicPayload = {
-      ...this.clinicForm.value,
-      doctorId: this.doctorId
-    };
+    // //  FIXED: send doctorId as number, not whole doctor object
+    // const clinicPayload = {
+    //   ...this.clinicForm.value,
+    //   doctorId: this.doctorId
+    // };
 
-    console.log('Creating clinic:', clinicPayload);
+    // console.log('Creating clinic:', clinicPayload);
 
-    this.mediconnectService.addClinic(clinicPayload).subscribe({
-      next: () => {
-        this.successMessage = 'Clinic created successfully!';
-        this.errorMessage = '';
-        setTimeout(() => this.router.navigate(['mediconnect']), 1500);
-      },
-      error: (err) => {
-        console.error('Create clinic failed:', err);
-        if (err.status === 400) {
-          this.errorMessage = 'Bad request. Please check your input.';
-        } else if (err.status === 401) {
-          this.errorMessage = 'Unauthorized. Please login again.';
-        } else {
-          this.errorMessage = err?.error?.message || 'An unexpected error occurred.';
+    // this.mediconnectService.addClinic(clinicPayload).subscribe({
+    //   next: () => {
+    //     this.successMessage = 'Clinic created successfully!';
+    //     this.errorMessage = '';
+    //     setTimeout(() => this.router.navigate(['mediconnect']), 1500);
+    //   },
+    //   error: (err) => {
+    //     console.error('Create clinic failed:', err);
+    //     if (err.status === 400) {
+    //       this.errorMessage = 'Bad request. Please check your input.';
+    //     } else if (err.status === 401) {
+    //       this.errorMessage = 'Unauthorized. Please login again.';
+    //     } else {
+    //       this.errorMessage = err?.error?.message || 'An unexpected error occurred.';
+    //     }
+    //     this.successMessage = '';
+    //   }
+    // });
+    if (this.clinicForm.valid) {
+      const clinic: Clinic = {
+        ...this.clinicForm.getRawValue(),
+        doctor: this.doctor,
+      };
+      this.mediconnectService.addClinic(clinic).subscribe({
+        next: (response) => {
+          this.errorMessage = null;
+          console.log(response);
+          this.clinicForm.reset();
+          this.successMessage = 'Clinic created successfully!';
+        },
+        error: (error) => {
+          this.handleError(error);
         }
-        this.successMessage = '';
-      }
-    });
+      });
+    }
   }
 
   resetForm(): void {

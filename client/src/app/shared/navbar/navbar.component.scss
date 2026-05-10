@@ -1,73 +1,179 @@
-/* Navbar container */
+/* navbar.component.css */
+
+/* Main navbar with secondary theme color */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #2c3e50; /* Dark background */
-    color: #ecf0f1; /* Light text */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 100%;
+  min-height: 66px;
+  padding: 0 32px;
+
+  background: linear-gradient(135deg, #075985, #0f766e);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.14);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Left navbar list */
+.navbar-list {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.navbar-list li {
+  display: flex;
+  align-items: center;
+}
+
+/* Common nav links */
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  padding: 8px 2px;
+
+  color: #e0f2fe;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: color 0.25s ease;
+}
+
+/* Hover underline */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 1px;
+
+  width: 0;
+  height: 2px;
+
+  background: #ffffff;
+  border-radius: 20px;
+
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* App name / logo */
+.app-name {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 8px 0;
+}
+
+/* Medical plus logo */
+.app-name::before {
+  content: "+";
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0f766e;
+
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Remove underline from logo */
+.app-name::after {
+  display: none;
+}
+
+.app-name:hover {
+  color: #dffdf7;
+}
+
+/* Active route */
+.nav-link.active,
+.nav-link.router-link-active {
+  color: #ffffff;
+}
+
+.nav-link.active::after,
+.nav-link.router-link-active::after {
+  width: 100%;
+}
+
+/* Logout component placement */
+app-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive navbar */
+@media (max-width: 768px) {
+  .navbar {
+    min-height: auto;
+    padding: 14px 18px;
+
+    align-items: flex-start;
+    gap: 14px;
   }
-  
-  /* Navbar list */
+
   .navbar-list {
-    list-style: none;
-    display: flex;
-    gap: 20px; /* Space between links */
-    padding: 0;
-    margin: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
-  
-  /* Navbar links */
-  .nav-link {
-    text-decoration: none;
-    color: #ecf0f1; /* Light text color */
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    font-size: 16px;
-    cursor: pointer; /* Pointer cursor on links */
-  }
-  
-  .nav-link:hover {
-    background-color: #2980b9; /* Blue hover effect */
-    color: white; /* White text on hover */
-  }
-  
-  /* No hover effect on application name */
+
   .app-name {
-    cursor: default; /* No pointer cursor for the app name */
+    font-size: 21px;
   }
-  
-  .app-name:hover {
-    background-color: inherit; /* No hover background color */
-    color: inherit; /* No hover color change */
-  }
-  
-  .nav-link.active {
-    background-color: #3498db; /* Active link color */
-    color: white;
-  }
-  
-  /* Logout button styles (inside <app-logout>) */
+
   app-logout {
-    margin-left: auto;
+    margin-top: 4px;
   }
-  
-  /* Media Query: Responsive for small screens */
-  @media (max-width: 768px) {
-    .navbar {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .navbar-list {
-      flex-direction: column;
-      gap: 10px;
-    }
-  
-    app-logout {
-      margin-left: 0;
-    }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 13px 14px;
   }
-  
+
+  .nav-link {
+    font-size: 14px;
+  }
+
+  .app-name {
+    font-size: 20px;
+  }
+
+  .app-name::before {
+    width: 25px;
+    height: 25px;
+    font-size: 17px;
+  }
+}
